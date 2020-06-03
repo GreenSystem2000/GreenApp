@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color = "primary">
+  <ion-buttons slot  = "start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-login-bloqueado title= "" message="Para ver seus agendamentos é necessário efetuar login"
+                      *ngIf="!isUserAuthenticated"></app-login-bloqueado>
+  <ion-list *ngFor="let conta of conta">
+ 
+    <ion-label>
+
+
+      Bem vindo Sr.{{ conta.username }}
+    </ion-label>
+  </ion-list>
+
+
+  <h1>Minhas Compras</h1>
+</ion-content>

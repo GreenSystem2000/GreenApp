@@ -1,0 +1,27 @@
+.cardprodutos{
+    width: 350px;
+    height:300px;
+
+    position: relative;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.imgprodutos{
+    position: relative;
+    left: 65px;
+    width: 100px;
+    height: 100px;
+
+}
+
+.descricao{
+    position: relative;
+    top:20px ;
+}
+
+.button{
+    left: 10px;
+    width: 250px;
+    height: 25px;
+}

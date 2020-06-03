@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalhes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <label *ngIf="produto != null">
+    <div class="cardproduto">
+      <div class="imgproduto">
+        <ion-img src="{{ produto.caminhoFoto }}"></ion-img>
+      </div>
+      <p>{{ produto.descricao }}</p>
+      <p>{{ produto.preco }}</p>
+      <h1>{{ produto.quantidade }}</h1>
+      <h1>{{ produto.categoria }}</h1>
+    </div>
+  </label>
+  <ion-button color="secondary">
+    <ion-icon name="checkbox" slot="start"></ion-icon>
+    Adicionar ao carrinho
+  </ion-button>
+</ion-content>

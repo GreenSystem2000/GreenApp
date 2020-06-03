@@ -1,0 +1,8 @@
+{
+  "name": "greensystem",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}
