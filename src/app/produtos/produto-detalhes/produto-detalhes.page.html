@@ -13,14 +13,34 @@
       <div class="imgproduto">
         <ion-img src="{{ produto.caminhoFoto }}"></ion-img>
       </div>
+      <p>STATUS >> {{ prodStatus[indiceAtual] }}</p>
       <p>{{ produto.descricao }}</p>
       <p>{{ produto.preco }}</p>
       <h1>{{ produto.quantidade }}</h1>
       <h1>{{ produto.categoria }}</h1>
-    </div>
+   
+
+    <ion-button color="secondary"
+    (click)="adicionarAoCarrinho(produto.descricao, produto.preco, quantidadeSelecionada.value)"
+    *ngIf="prodStatus[indiceAtual] == 0">
+      <ion-icon name="checkmark" slot="start"></ion-icon>
+      Adcionar ao carrinho
+    </ion-button>
+
+    <ion-button color="danger"
+    (click)="removerDoCarrinho(produto.descricao, produto.preco, quantidadeSelecionada.value)"
+    *ngIf="prodStatus[indiceAtual] == 1">
+      <ion-icon name="close" slot="start"></ion-icon>
+      Remover do carrinho
+    </ion-button>
+
+    <ion-item (mouseup)="setItemQtd(produto.quantidade)" [disabled]="prodStatus[indiceAtual] == 1">
+      <ion-label>Quantidade:  </ion-label>
+      <ion-select value="{{ quantidadeUltimaSelecao[indiceAtual] }}" #quantidadeSelecionada>
+        <ion-select-option *ngFor="let qtd of qtdItem">{{ qtd }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+  
   </label>
-  <ion-button color="secondary">
-    <ion-icon name="checkbox" slot="start"></ion-icon>
-    Adicionar ao carrinho
-  </ion-button>
 </ion-content>

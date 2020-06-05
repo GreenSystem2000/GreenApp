@@ -13,30 +13,33 @@ export class ListaProdutosPage implements OnInit {
   isUserAuthenticated: boolean;
   textobuscar                      = ''
 
-  informacoesCompras   :  Comprar;
+  informacoesCompras     : Comprar;
 
-  produtoId            :  number[] = []
-  produtoSelecionado   :  string[] = []
-  prodStates           :  number[] = []
-  precoProduto         :  number[] = []
-  qtdItem              :  number[] = []
-  quantidadeSelecionada:  number[] = []
-  
-  produtos             : Produto[] = []
+  indice                 : number[] = []
+  produtoId              : number[] = []
+  produtoSelecionado     : string[] = []
+  precoProduto           : number[] = []
+  quantidadeSelecionada  : number[] = []
+  prodStatus             : number[] = []
+  qtdItem                : number[] = []
+  quantidadeUltimaSelecao: number[] = [] 
 
+  produtos               : Produto[] = []
   
   constructor(private produtoService: ProdutoService, private authService: AutenticadoService) {
     this.produtoService.get().subscribe(resposta => {
       this.produtos = resposta
-
       this.persistenciaDeDados()
     });
   }
   
   ngOnInit() { }
-
+  
   ionViewWillEnter() {
     this.isUserAuthenticated = this.authService.isUserAuthenticated()
+    this.atualizarDados()
+    
+    localStorage.getItem('indice') && localStorage.removeItem('indice')
   }
 
   buscarProduto(mostrar){
@@ -47,51 +50,79 @@ export class ListaProdutosPage implements OnInit {
   persistenciaDeDados() {
     if (localStorage.getItem('prodSelecionados') == undefined) {
       for (let i = 0; i < this.produtos.length; i++) {
-        this.prodStates.push(0)
+        this.prodStatus.push(0)
+        this.quantidadeUltimaSelecao.push(1)
       }
     } else {
       let convertProdSToJSON = JSON.parse(localStorage.getItem('prodSelecionados'))
 
-      this.produtoId             = convertProdSToJSON.produtoId
-      this.produtoSelecionado    = convertProdSToJSON.produtos
-      this.prodStates            = convertProdSToJSON.prodStates
-      this.precoProduto          = convertProdSToJSON.preco
-      this.quantidadeSelecionada = convertProdSToJSON.quantidade
+      this.indice                  = convertProdSToJSON.indice
+      this.produtoId               = convertProdSToJSON.produtoId
+      this.produtoSelecionado      = convertProdSToJSON.produtos
+      this.prodStatus              = convertProdSToJSON.prodStatus
+      this.precoProduto            = convertProdSToJSON.preco
+      this.quantidadeSelecionada   = convertProdSToJSON.quantidade
+      this.quantidadeUltimaSelecao = convertProdSToJSON.quantidadeUltimaSelecao
     }
   }
 
-  adicionarAoCarrinho(produtoDescricao, produtoPreco, quantidadeSelecionada, index) {
-    this.prodStates[index] = 1
+  atualizarDados() {
+    if (localStorage.getItem('prodSelecionados') != undefined) {
+      let convertProdSToJSON = JSON.parse(localStorage.getItem('prodSelecionados'))
+
+      this.indice                  = convertProdSToJSON.indice
+      this.produtoId               = convertProdSToJSON.produtoId
+      this.produtoSelecionado      = convertProdSToJSON.produtos
+      this.prodStatus              = convertProdSToJSON.prodStatus
+      this.precoProduto            = convertProdSToJSON.preco
+      this.quantidadeSelecionada   = convertProdSToJSON.quantidade
+      this.quantidadeUltimaSelecao = convertProdSToJSON.quantidadeUltimaSelecao
+    }
+  }
+
+  adicionarAoCarrinho(produtoId, produtoDescricao, produtoPreco, quantidadeSelecionada, index) {
+    this.prodStatus[index] = 1
+    this.quantidadeUltimaSelecao[index] = parseInt(quantidadeSelecionada)
+
     let precoFloat = parseFloat(produtoPreco.replace(',', '.'))
 
-    this.produtoId.push(index + 1)
+    this.produtoId.push(produtoId)
     this.produtoSelecionado.push(produtoDescricao)
     this.precoProduto.push(precoFloat * quantidadeSelecionada)
     this.quantidadeSelecionada.push(parseInt(quantidadeSelecionada))
+    this.indice.push(index)
 
     this.atualizarProdSelecionados()
   }
 
-  removerDoCarrinho(produtoDescricao, produtoPreco, quantidadeSelecionada, index) {
-    this.prodStates[index] = 0
+  removerDoCarrinho(produtoId, produtoDescricao, produtoPreco, quantidadeSelecionada, index) {
+    this.prodStatus[index] = 0
+    this.quantidadeUltimaSelecao[index] = 1
     let precoFloat = parseFloat(produtoPreco.replace(',', '.'))
 
-    this.produtoId.splice(this.produtoId.indexOf(index + 1), 1);
+    this.produtoId.splice(this.produtoId.indexOf(parseInt(produtoId)), 1);
     this.produtoSelecionado.splice(this.produtoSelecionado.indexOf(produtoDescricao), 1);
     this.precoProduto.splice(this.precoProduto.indexOf(precoFloat * quantidadeSelecionada), 1);
     this.quantidadeSelecionada.splice(this.quantidadeSelecionada.indexOf(parseInt(quantidadeSelecionada)), 1);
+    this.indice.splice(this.indice.indexOf(index), 1);
 
     this.atualizarProdSelecionados()
+  }
+
+  setProductIndice(index) {
+    localStorage.setItem('indice', index)
   }
 
   atualizarProdSelecionados() {
     this.informacoesCompras = {
-      username  : localStorage.getItem('username'),
-      preco     : this.precoProduto,
-      prodStates: this.prodStates,
-      produtoId : this.produtoId,
-      produtos  : this.produtoSelecionado,
-      quantidade: this.quantidadeSelecionada
+      username               : localStorage.getItem('username'),
+      indice                 : this.indice,
+      produtoId              : this.produtoId,
+      produtos               : this.produtoSelecionado,
+      preco                  : this.precoProduto,
+      quantidade             : this.quantidadeSelecionada,
+      prodStatus             : this.prodStatus,
+      quantidadeUltimaSelecao: this.quantidadeUltimaSelecao
     }
     
     localStorage.setItem('prodSelecionados', JSON.stringify(this.informacoesCompras))

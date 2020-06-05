@@ -1,8 +1,10 @@
 export interface Comprar {
-    username  : string;
-    produtoId : number[]
-    produtos  : string[];
-    preco     : number[];
-    quantidade: number[];
-    prodStates : number[];
+    username               : string;
+    indice                 : number[]
+    produtoId              : number[]
+    produtos               : string[]
+    preco                  : number[]
+    quantidade             : number[]
+    prodStatus             : number[]
+    quantidadeUltimaSelecao: number[]
 }

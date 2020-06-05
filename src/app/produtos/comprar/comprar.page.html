@@ -6,22 +6,27 @@
 <ion-content>
   <table>
     <tr>
-      <th>Quantidade Selecionada</th>
-      <th>Produto selecionado</th>
+      <th>Quantidade </th>
+      <th>Produto </th>
       <th>Preço</th>
       <th>Remover</th>
     </tr>
     <tr *ngFor = "let produtoSelecionado of produtoSelecionados; let index = index">
       <td>{{ quantidadeSelecionada[index] + 'X' }}</td>
       <td>{{ produtoSelecionado }}</td>
-      <td>{{ precoProduto[index] }}</td>
+      <td>{{ precoProduto[index] }},00</td>
       <td>
-        <ion-button color="danger" (click)="removerDoCarrinho(produtoSelecionado, precoProduto[index], quantidadeSelecionada[index], produtoId[index], index)">
+        <ion-button color="danger" (click)="removerDoCarrinho(produtoSelecionado, precoProduto[index], quantidadeSelecionada[index], produtoId[index], indice[index])">
           <ion-icon name="close"></ion-icon> 
         </ion-button>
       </td>
     </tr>
    Preço Total: <ion-label>{{'R$ ' + total + ',00'}}</ion-label> 
   </table>
-  
+     <section class="full-width">
+          <ion-button  color="primary">
+            <ion-icon name="information" ></ion-icon>
+            Finalizar Compra
+          </ion-button>
+          </section>
 </ion-content>

@@ -11,18 +11,20 @@ import { AutenticadoService } from 'src/app/autenticar/compartilhado/autenticado
 export class ComprarPage implements OnInit {
 
           convertProdSToJSON    : any     
-
-          produtoId             : number[] = []
-          produtoSelecionados   : string[] = []
-          prodStates            : number[] = []
-          precoProduto          : number[] = []
+          
+          indice                 : number[] = []
+          produtoId              : number[] = []
+          produtoSelecionados    : string[] = []
+          precoProduto           : number[] = []
+          quantidadeSelecionada  : number[] = []
+          prodStatus             : number[] = []
+          quantidadeUltimaSelecao: number[] = [] 
 
           precoConvertido       : number[] = []
           total                 : number
 
           isUserAuthenticated   : boolean
           
-          quantidadeSelecionada:  number[] = []
 
           informacoesCompras   :  Comprar
 
@@ -36,13 +38,15 @@ export class ComprarPage implements OnInit {
   }
 
   selectedProducts() {
-    this.convertProdSToJSON     = JSON.parse(localStorage.getItem('prodSelecionados'))
+    let convertProdSToJSON = JSON.parse(localStorage.getItem('prodSelecionados'))
 
-    this.produtoId              = this.convertProdSToJSON.produtoId
-    this.produtoSelecionados    = this.convertProdSToJSON.produtos
-    this.prodStates             = this.convertProdSToJSON.prodStates
-    this.precoProduto           = this.convertProdSToJSON.preco
-    this.quantidadeSelecionada  = this.convertProdSToJSON.quantidade
+    this.indice                  = convertProdSToJSON.indice
+    this.produtoId               = convertProdSToJSON.produtoId
+    this.produtoSelecionados     = convertProdSToJSON.produtos
+    this.precoProduto            = convertProdSToJSON.preco
+    this.quantidadeSelecionada   = convertProdSToJSON.quantidade
+    this.prodStatus              = convertProdSToJSON.prodStatus
+    this.quantidadeUltimaSelecao = convertProdSToJSON.quantidadeUltimaSelecao
   }
   
   calcularPrecoTotal() {
@@ -51,25 +55,32 @@ export class ComprarPage implements OnInit {
     }, 0)
   }
 
-  removerDoCarrinho(produtoDescricao, produtoPreco, quantidadeSelecionada, produtoId) {
-    this.prodStates[produtoId - 1] = 0
+  removerDoCarrinho(produtoDescricao, produtoPreco, quantidadeSelecionada, produtoId, indice) {
+    this.prodStatus[indice] = 0
+    this.quantidadeUltimaSelecao[indice] = 1
 
     this.produtoId.splice(this.produtoId.indexOf(produtoId), 1);
     this.produtoSelecionados.splice(this.produtoSelecionados.indexOf(produtoDescricao), 1);
     this.precoProduto.splice(this.precoProduto.indexOf(produtoPreco), 1);
     this.quantidadeSelecionada.splice(this.quantidadeSelecionada.indexOf(parseInt(quantidadeSelecionada)), 1);
+    this.indice.splice(this.indice.indexOf(indice), 1);
 
-    this.informacoesCompras = {
-      username  : localStorage.getItem('username'),
-      preco     : this.precoProduto,
-      prodStates: this.prodStates,
-      produtoId : this.produtoId,
-      produtos  : this.produtoSelecionados,
-      quantidade: this.quantidadeSelecionada
-    }
-
-    localStorage.setItem('prodSelecionados', JSON.stringify(this.informacoesCompras))
-
+    this.atualizarProdSelecionados()
     this.calcularPrecoTotal()
+  }
+
+  atualizarProdSelecionados() {
+    this.informacoesCompras = {
+      username               : localStorage.getItem('username'),
+      indice                 : this.indice,
+      produtoId              : this.produtoId,
+      produtos               : this.produtoSelecionados,
+      preco                  : this.precoProduto,
+      quantidade             : this.quantidadeSelecionada,
+      prodStatus             : this.prodStatus,
+      quantidadeUltimaSelecao: this.quantidadeUltimaSelecao
+    }
+    
+    localStorage.setItem('prodSelecionados', JSON.stringify(this.informacoesCompras))
   }
 }

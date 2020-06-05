@@ -1,10 +1,11 @@
 .cardprodutos{
-    width: 350px;
-    height:300px;
 
+    width: 350px;
+    height:335px;
+    box-shadow: 0 4px 8px 0 rgba(171, 171, 165);
+    transition: 0.3s;
     position: relative;
     border-radius: 5px;
-    transition: 0.3s;
 }
 
 .imgprodutos{
@@ -21,7 +22,19 @@
 }
 
 .button{
-    left: 10px;
+    position: relative;
+   top: 55px;
     width: 250px;
     height: 25px;
+}
+
+.item{
+    position: relative;
+    top: 55px;
+
+}
+.preco{
+    position: relative;
+    top: 35px;
+
 }

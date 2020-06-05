@@ -16,25 +16,12 @@ export class ProdutoService{
   get() {
    return this.http.get<Produto[]>('http://localhost:8080/estoque/api/produtos');
   }
-
-
   
   filterByDescription(description: string) {
     return this.http.get<Produto[]>(`http://localhost:3000/produtos?description=${description}`).toPromise();
   }
 
-
-
-  
-
-
   getByid(id: number) {
     return this.http.get<Produto>(`http://localhost:8080/estoque/api/produtos/${id}`).toPromise();
   }
-
-
-
-
-
- 
 }

@@ -6,12 +6,13 @@
 
 
 <ion-content *ngIf="produtos != null" >
+
   <ion-searchbar placeholder="Buscar Produto" animated
               (ionChange)="buscarProduto($event)"></ion-searchbar>
-              
-  <ion-list>
  
-    <ion-item *ngFor="let produto of produtos | filtro:textobuscar; let index = index"
+              <ion-list>
+ 
+              <ion-item  *ngFor="let produto of produtos | filtro:textobuscar; let index = index"
               (mouseover)="clearItemQtd(produto.quantidade)">       
   
       <div class="cardprodutos">
@@ -21,38 +22,41 @@
         </div>
 
         <div class="descricao">
-          <label> {{ produto.descricao }}</label>
-          <label>R$:{{ produto.preco }}</label>
+        {{ produto.descricao }}
+        </div>
+        <div class ="preco">
+         R$:{{ produto.preco }}
+         
         </div>
 
         <section class="full-width">
-          <ion-button  color="secondary" [routerLink]="['produto-detalhes', produto.id]">
+          <ion-button  color="warning" [routerLink]="['produto-detalhes', produto.id]" (click)="setProductIndice(index)">
             <ion-icon name="information" ></ion-icon>
             Detalhes
           </ion-button>
           
-          <ion-button color="secondary"
+          <ion-button color="dark"
                       *ngIf="isUserAuthenticated == false"
                       [routerLink]="['/tabs/minhaconta']">
             <ion-icon name="checkbox" slot="start"></ion-icon>
             Adcionar ao carrinho
           </ion-button>
-          <ion-button color="secondary"
-                      (click)="adicionarAoCarrinho(produto.descricao, produto.preco, quantidadeSelecionada.value, index)"
-                      *ngIf="isUserAuthenticated == true && prodStates[index] == 0 || prodStates[index] == undefined">
+          <ion-button color="primary"
+                      (click)="adicionarAoCarrinho(produto.id, produto.descricao, produto.preco, quantidadeSelecionada.value, index)"
+                      *ngIf="isUserAuthenticated == true && prodStatus[index] == 0 || prodStatus[index] == undefined">
             <ion-icon name="checkmark" slot="start"></ion-icon>
             Adcionar ao carrinho
           </ion-button>
           <ion-button color="danger"
-                      (click)="removerDoCarrinho(produto.descricao, produto.preco, quantidadeSelecionada.value, index)"
-                      *ngIf="isUserAuthenticated == true && prodStates[index] == 1">
+                      (click)="removerDoCarrinho(produto.id, produto.descricao, produto.preco, quantidadeSelecionada.value, index)"
+                      *ngIf="isUserAuthenticated == true && prodStatus[index] == 1">
             <ion-icon name="close" slot="start"></ion-icon>
             Remover do carrinho
           </ion-button>
           
-          <ion-item (mouseup)="setItemQtd(produto.quantidade)">
+          <ion-item (mouseup)="setItemQtd(produto.quantidade)" [disabled]="prodStatus[index] == 1">
             <ion-label>Quantidade:  </ion-label>
-            <ion-select value="1" #quantidadeSelecionada>
+            <ion-select value="{{ quantidadeUltimaSelecao[index] }}" #quantidadeSelecionada>
               <ion-select-option *ngFor="let qtd of qtdItem">{{ qtd }}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -61,5 +65,6 @@
       </div>
            
     </ion-item>
+    <div clas="espaco"></div>
   </ion-list>
 </ion-content>
