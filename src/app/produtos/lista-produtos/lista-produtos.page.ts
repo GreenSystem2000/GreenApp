@@ -11,35 +11,62 @@ import { AutenticadoService } from 'src/app/autenticar/compartilhado/autenticado
 })
 export class ListaProdutosPage implements OnInit {
   isUserAuthenticated: boolean;
-  textobuscar                      = ''
+  textobuscar                        = ''
 
   informacoesCompras     : Comprar;
 
-  indice                 : number[] = []
-  produtoId              : number[] = []
-  produtoSelecionado     : string[] = []
-  precoProduto           : number[] = []
-  quantidadeSelecionada  : number[] = []
-  prodStatus             : number[] = []
-  qtdItem                : number[] = []
-  quantidadeUltimaSelecao: number[] = [] 
+  indice                 : number[]  = []
+  produtoId              : number[]  = []
+  produtoSelecionado     : string[]  = []
+  precoProduto           : number[]  = []
+  quantidadeSelecionada  : number[]  = []
+  prodStatus             : number[]  = []
+  qtd                    : number = 1
+  quantidadeUltimaSelecao: number[]  = [] 
 
   produtos               : Produto[] = []
   
+  precoReais             : number[]  = []
+
   constructor(private produtoService: ProdutoService, private authService: AutenticadoService) {
     this.produtoService.get().subscribe(resposta => {
       this.produtos = resposta
-      this.persistenciaDeDados()
+
+      localStorage.setItem('QuantidadeDeProdutos', this.produtos.length.toString());
     });
   }
   
   ngOnInit() { }
   
   ionViewWillEnter() {
+    this.esvaziarDadosArrays()
+    // Se não houver nada selecionado, execute esse método
+
     this.isUserAuthenticated = this.authService.isUserAuthenticated()
     this.atualizarDados()
     
     localStorage.getItem('indice') && localStorage.removeItem('indice')
+    this.persistenciaDeDados()
+  }
+
+  esvaziarDadosArrays() {
+    const quantidadeDeProdutos = parseInt(localStorage.getItem('QuantidadeDeProdutos'))
+
+    if (localStorage.getItem('prodSelecionados') == null) {
+      for (let i = 0; i < quantidadeDeProdutos; i++) {
+        this.indice.pop()
+        this.produtoId.pop()
+        this.produtoSelecionado.pop()
+        this.prodStatus.pop()
+        this.precoProduto.pop()
+        this.quantidadeSelecionada.pop()
+        this.quantidadeUltimaSelecao.pop()
+      }
+      for (let i = 0; i < quantidadeDeProdutos; i++) {
+        this.prodStatus.push(0)
+        this.quantidadeUltimaSelecao.push(1)
+      }
+    }
   }
 
   buscarProduto(mostrar){
@@ -48,12 +75,14 @@ export class ListaProdutosPage implements OnInit {
   }
 
   persistenciaDeDados() {
-    if (localStorage.getItem('prodSelecionados') == undefined) {
-      for (let i = 0; i < this.produtos.length; i++) {
+    const quantidadeDeProdutos = parseInt(localStorage.getItem('QuantidadeDeProdutos'))
+    
+    if (localStorage.getItem('prodSelecionados') == null && this.quantidadeUltimaSelecao.length == 0) {
+      for (let i = 0; i < quantidadeDeProdutos; i++) {
         this.prodStatus.push(0)
         this.quantidadeUltimaSelecao.push(1)
       }
-    } else {
+    } else if (localStorage.getItem('prodSelecionados') != null) {
       let convertProdSToJSON = JSON.parse(localStorage.getItem('prodSelecionados'))
 
       this.indice                  = convertProdSToJSON.indice
@@ -84,7 +113,7 @@ export class ListaProdutosPage implements OnInit {
     this.prodStatus[index] = 1
     this.quantidadeUltimaSelecao[index] = parseInt(quantidadeSelecionada)
 
-    let precoFloat = parseFloat(produtoPreco.replace(',', '.'))
+    let precoFloat = parseFloat(produtoPreco.toString().replace(',', '.'))
 
     this.produtoId.push(produtoId)
     this.produtoSelecionado.push(produtoDescricao)
@@ -98,7 +127,7 @@ export class ListaProdutosPage implements OnInit {
   removerDoCarrinho(produtoId, produtoDescricao, produtoPreco, quantidadeSelecionada, index) {
     this.prodStatus[index] = 0
     this.quantidadeUltimaSelecao[index] = 1
-    let precoFloat = parseFloat(produtoPreco.replace(',', '.'))
+    let precoFloat = parseFloat(produtoPreco.toString().replace(',', '.'))
 
     this.produtoId.splice(this.produtoId.indexOf(parseInt(produtoId)), 1);
     this.produtoSelecionado.splice(this.produtoSelecionado.indexOf(produtoDescricao), 1);
@@ -128,15 +157,13 @@ export class ListaProdutosPage implements OnInit {
     localStorage.setItem('prodSelecionados', JSON.stringify(this.informacoesCompras))
   }
 
-  setItemQtd(quantidade) {
-    for (let i = 1; i <= quantidade; i++) {
-      this.qtdItem.push(i)
-    }
+  adicionarQtd(index) {
+    this.quantidadeUltimaSelecao[index]++
+    console.log(this.quantidadeUltimaSelecao)
   }
 
-  clearItemQtd(quantidade) {
-    for (let i = 1; i <= quantidade; i++) {
-      this.qtdItem.pop()
-    }
+  diminuirQtd(index) {
+    this.quantidadeUltimaSelecao[index]--
+    console.log(this.quantidadeUltimaSelecao)
   }
 }

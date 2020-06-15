@@ -8,39 +8,52 @@
 </ion-header>
 
 <ion-content>
-  <label *ngIf="produto != null">
-    <div class="cardproduto">
-      <div class="imgproduto">
-        <ion-img src="{{ produto.caminhoFoto }}"></ion-img>
+  <ion-card *ngIf="produto != null">
+    <ion-img src="{{ produto.caminhoFoto }}"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{ produto.nome }}</ion-card-title>
+      <ion-label>{{ produto.preco.toLocaleString('pt-BR',{style: 'currency', currency:'BRL'}) }}</ion-label>
+    </ion-card-header>
+    <ion-card-content>
+      {{ produto.descricao }}
+    </ion-card-content>
+    <ion-item>
+      <ion-button color="primary" *ngIf="isUserAuthenticated == false" [routerLink]="['/tabs/minhaconta']">
+        <ion-icon name="checkbox" slot="start"></ion-icon>
+        Adicionar ao carrinho
+      </ion-button>
+      <ion-button color="secondary"
+      (click)="adicionarAoCarrinho(produto.descricao, produto.preco, quantidadeUltimaSelecao[indiceAtual])"
+      *ngIf="isUserAuthenticated == true && prodStatus[indiceAtual] == 0" [disabled]="produto.quantidade <= 0">
+        <ion-icon name="checkmark" slot="start"></ion-icon>
+        Adcionar ao carrinho
+      </ion-button>
+      <ion-button color="danger"
+      (click)="removerDoCarrinho(produto.descricao, produto.preco, quantidadeUltimaSelecao[indiceAtual])"
+      *ngIf="prodStatus[indiceAtual] == 1">
+        <ion-icon name="close" slot="start"></ion-icon>
+        Remover do carrinho
+      </ion-button>
+      <div *ngIf="produto.quantidade > 1" style="margin-left: 10px">
+        {{ produto.quantidade }} disponíveis
       </div>
-      <p>STATUS >> {{ prodStatus[indiceAtual] }}</p>
-      <p>{{ produto.descricao }}</p>
-      <p>{{ produto.preco }}</p>
-      <h1>{{ produto.quantidade }}</h1>
-      <h1>{{ produto.categoria }}</h1>
-   
-
-    <ion-button color="secondary"
-    (click)="adicionarAoCarrinho(produto.descricao, produto.preco, quantidadeSelecionada.value)"
-    *ngIf="prodStatus[indiceAtual] == 0">
-      <ion-icon name="checkmark" slot="start"></ion-icon>
-      Adcionar ao carrinho
-    </ion-button>
-
-    <ion-button color="danger"
-    (click)="removerDoCarrinho(produto.descricao, produto.preco, quantidadeSelecionada.value)"
-    *ngIf="prodStatus[indiceAtual] == 1">
-      <ion-icon name="close" slot="start"></ion-icon>
-      Remover do carrinho
-    </ion-button>
-
-    <ion-item (mouseup)="setItemQtd(produto.quantidade)" [disabled]="prodStatus[indiceAtual] == 1">
-      <ion-label>Quantidade:  </ion-label>
-      <ion-select value="{{ quantidadeUltimaSelecao[indiceAtual] }}" #quantidadeSelecionada>
-        <ion-select-option *ngFor="let qtd of qtdItem">{{ qtd }}</ion-select-option>
-      </ion-select>
+      <div *ngIf="produto.quantidade == 1" style="margin-left: 10px">
+        {{ produto.quantidade }} disponível
+      </div>
+      <div *ngIf="produto.quantidade <= 0" style="margin-left: 10px">
+        Indisponível
+      </div>
     </ion-item>
-  </div>
-  
-  </label>
+    <ion-item>
+      <ion-button class="radius" color="danger" size="small" (click)="diminuirQtd(indiceAtual)" [disabled]="quantidadeUltimaSelecao[indiceAtual] == 1 || prodStatus[indiceAtual] == 1 || produto.quantidade <= 0 || isUserAuthenticated == false">
+        -
+      </ion-button>
+      <ion-button color="light" style="--border-radius: 5px" [disabled]="produto.quantidade <= 0 || isUserAuthenticated == false">
+        {{ quantidadeUltimaSelecao[indiceAtual] }}
+      </ion-button>
+      <ion-button class="radius" color="secondary" size="small" (click)="adicionarQtd(indiceAtual)" [disabled]="quantidadeUltimaSelecao[indiceAtual] == produto.quantidade || prodStatus[indiceAtual] == 1 || produto.quantidade <= 0 || isUserAuthenticated == false">
+        +
+      </ion-button>
+    </ion-item>
+  </ion-card>
 </ion-content>

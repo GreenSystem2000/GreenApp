@@ -10,62 +10,43 @@ const routes: Routes = [
       {
         path    : 'produtos',
         children: [
-              {
-                path: '',
-               
-                loadChildren: '../produtos/lista-produtos/lista-produtos.module#ListaProdutosPageModule'
-              },
-
-              {
-                path: 'produto-detalhes/:produtoId',
-               
-                loadChildren: '../produtos/produto-detalhes/produto-detalhes.module#ProdutoDetalhesPageModule'
-                  
-              },
-
-
-            ]
+          {
+            path        : '',
+            loadChildren: () => import ('./../produtos/lista-produtos/lista-produtos.module').then(m => m.ListaProdutosPageModule)
           },
-
-
-          
+          {
+            path        : 'produto-detalhes/:produtoId',
+            loadChildren: () => import ('./../produtos/produto-detalhes/produto-detalhes.module').then(m => m.ProdutoDetalhesPageModule)  
+          },
+        ]
+      },
       {
         path    : 'minhaconta',
         children: [
           {
             path        : '',
-            loadChildren: '../autenticar/minha-conta/minha-conta.module#MinhaContaPageModule'
-              
-          },
+            loadChildren: () => import ('../autenticar/minha-conta/minha-conta.module').then(m => m.MinhaContaPageModule)  
+          }
         ]
       },
-
-
-
       {
         path    : 'produtos/comprar',
         children: [
           {
             path        : '',
-            loadChildren: '../produtos/comprar/comprar.module#ComprarPageModule'
-              
-          },
+            loadChildren: () => import ('../produtos/comprar/comprar.module').then(m => m.ComprarPageModule)   
+          }
         ]
       },
-
       {
         path    : 'about',
         children: [
           {
             path        : '',
-            loadChildren: '../about/about/about.module#AboutPageModule'
-            
+            loadChildren: () => import ('../about/about/about.module').then(m => m.AboutPageModule)    
           }
         ]
       },
-
-
-
       {
         path      : '',
         redirectTo: '/tabs/produtos',

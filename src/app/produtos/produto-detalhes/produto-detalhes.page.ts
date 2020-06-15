@@ -4,6 +4,7 @@ import { Produto } from '../compartilhado/produto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/core/service/toast.service';
 import { Comprar } from '../compartilhado/comprar';
+import { AutenticadoService } from 'src/app/autenticar/compartilhado/autenticado.service';
 
 @Component({
   selector: 'app-produto-detalhes',
@@ -11,10 +12,11 @@ import { Comprar } from '../compartilhado/comprar';
   styleUrls: ['./produto-detalhes.page.scss'],
 })
 export class ProdutoDetalhesPage implements OnInit {
-  produto           : Produto;
-  indiceAtual       : number
+  isUserAuthenticated    : boolean;
+  produto                : Produto;
+  indiceAtual            : number
 
-  informacoesCompras: Comprar;
+  informacoesCompras     : Comprar;
 
   indice                 : number[] = []
   produtoId              : number[] = []
@@ -23,9 +25,8 @@ export class ProdutoDetalhesPage implements OnInit {
   quantidadeSelecionada  : number[] = []
   prodStatus             : number[] = []
   quantidadeUltimaSelecao: number[] = []
-  qtdItem                : number[] = []
 
-  constructor(private produtoService: ProdutoService, private activatedRoute: ActivatedRoute) {
+  constructor(private produtoService: ProdutoService, private activatedRoute: ActivatedRoute, private authService: AutenticadoService) {
     this.indiceAtual = parseInt(localStorage.getItem('indice'))
     this.persistenciaDeDados()
   }
@@ -33,6 +34,10 @@ export class ProdutoDetalhesPage implements OnInit {
   async ngOnInit() { 
     const produtoId = this.getProdutoId();
     this.produto = await this.getProduto(produtoId);
+  }
+
+  ionViewWillEnter() {
+    this.isUserAuthenticated = this.authService.isUserAuthenticated()
   }
 
   getProdutoId() {
@@ -50,9 +55,12 @@ export class ProdutoDetalhesPage implements OnInit {
   }
 
   persistenciaDeDados() {
-    if (localStorage.getItem('prodSelecionados') == undefined) {
-      for (let i = 0; i < 4; i++) {
+    const quantidadeDeProdutos = parseInt(localStorage.getItem('QuantidadeDeProdutos'))
+
+    if (localStorage.getItem('prodSelecionados') == undefined && this.prodStatus.length == 0) {
+      for (let i = 0; i < quantidadeDeProdutos; i++) {
         this.prodStatus.push(0)
+        this.quantidadeUltimaSelecao.push(1)
       }
     } else {
       let convertProdSToJSON = JSON.parse(localStorage.getItem('prodSelecionados'))
@@ -69,7 +77,7 @@ export class ProdutoDetalhesPage implements OnInit {
 
   adicionarAoCarrinho(produtoDescricao, produtoPreco, quantidadeSelecionada) {
     const idProd = this.activatedRoute.snapshot.paramMap.get('produtoId');
-    const precoFloat = parseFloat(produtoPreco.replace(',', '.'))
+    const precoFloat = parseFloat(produtoPreco.toString().replace(',', '.'))
 
     this.indice.push(this.indiceAtual)
     this.prodStatus[this.indiceAtual] = 1
@@ -77,14 +85,14 @@ export class ProdutoDetalhesPage implements OnInit {
     this.produtoId.push(parseInt(idProd))
     this.produtoSelecionado.push(produtoDescricao)
     this.precoProduto.push(precoFloat * quantidadeSelecionada)
-    this.quantidadeSelecionada.push(quantidadeSelecionada)
+    this.quantidadeSelecionada.push(parseInt(quantidadeSelecionada))
 
     this.atualizarProdSelecionados()
   }
 
   removerDoCarrinho(produtoDescricao, produtoPreco, quantidadeSelecionada) {
     const idProd = this.activatedRoute.snapshot.paramMap.get('produtoId');
-    const precoFloat = parseFloat(produtoPreco.replace(',', '.'))
+    const precoFloat = parseFloat(produtoPreco.toString().replace(',', '.'))
 
     this.indice.splice(this.indice.indexOf(this.indiceAtual), 1);
     this.prodStatus[this.indiceAtual] = 0
@@ -112,9 +120,13 @@ export class ProdutoDetalhesPage implements OnInit {
     localStorage.setItem('prodSelecionados', JSON.stringify(this.informacoesCompras))
   }
 
-  setItemQtd(quantidade) {
-    for (let i = 1; i <= quantidade; i++) {
-      this.qtdItem.push(i)
-    }
+  adicionarQtd(index) {
+    this.quantidadeUltimaSelecao[index]++
+    console.log(this.quantidadeUltimaSelecao[0])
+  }
+
+  diminuirQtd(index) {
+    this.quantidadeUltimaSelecao[index]--
+    console.log(this.quantidadeUltimaSelecao)
   }
 }

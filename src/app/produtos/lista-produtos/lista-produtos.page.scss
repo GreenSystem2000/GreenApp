@@ -1,40 +1,7 @@
-.cardprodutos{
-
-    width: 350px;
-    height:335px;
-    box-shadow: 0 4px 8px 0 rgba(171, 171, 165);
-    transition: 0.3s;
-    position: relative;
-    border-radius: 5px;
+ion-content {
+    --background: url(/assets/textures/bg-white.jpg);
 }
 
-.imgprodutos{
-    position: relative;
-    left: 65px;
-    width: 100px;
-    height: 100px;
-
-}
-
-.descricao{
-    position: relative;
-    top:20px ;
-}
-
-.button{
-    position: relative;
-   top: 55px;
-    width: 250px;
-    height: 25px;
-}
-
-.item{
-    position: relative;
-    top: 55px;
-
-}
-.preco{
-    position: relative;
-    top: 35px;
-
+ion-card-content ion-button {
+    --border-radius: 50px
 }

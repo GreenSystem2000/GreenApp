@@ -19,4 +19,5 @@ import { CompartilhadoModule } from 'src/app/compartilhado/compartilhado/compart
   ],
   declarations: [MinhaContaPage]
 })
+
 export class MinhaContaPageModule {}

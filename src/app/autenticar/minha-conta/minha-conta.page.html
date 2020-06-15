@@ -1,24 +1,56 @@
 <ion-header>
-  <ion-toolbar color = "primary">
-  <ion-buttons slot  = "start">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Login</ion-title>
+    <ion-buttons slot="primary" *ngIf="isUserAuthenticated"  >
+      <ion-button style="background-color: brown; border-radius: 5px" (click)="destroyTokenAndUsername()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Minha conta</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <app-login-bloqueado title= "" message="Para ver seus agendamentos é necessário efetuar login"
                       *ngIf="!isUserAuthenticated"></app-login-bloqueado>
-  <ion-list *ngFor="let conta of conta">
- 
-    <ion-label>
-
-
-      Bem vindo Sr.{{ conta.username }}
-    </ion-label>
-  </ion-list>
-
-
-  <h1>Minhas Compras</h1>
+  <div *ngIf="isUserAuthenticated">
+    <ion-item *ngFor="let conta of conta">
+      <ion-label>
+        <ion-icon name="person-circle-outline"></ion-icon>
+        Usuário: {{ conta.username }}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="cart-outline"></ion-icon>
+        Compras
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="body-outline"></ion-icon>
+        Dados pessoais
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="key-outline"></ion-icon>
+        Alterar senha
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="map-outline"></ion-icon>
+        Solicitar devolução
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="chatbubbles-outline"></ion-icon>
+        Enviar feedback
+      </ion-label>
+    </ion-item>
+  </div>
 </ion-content>

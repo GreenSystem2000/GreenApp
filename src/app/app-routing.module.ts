@@ -35,6 +35,10 @@ const routes: Routes = [
   {
     path        : 'tabs/produtos/comprar',
     loadChildren: () => import('./produtos/comprar/comprar.module').then( m => m.ComprarPageModule)
+  },
+  {
+    path: 'tabs/produtos/comprar/finalizarcarrinho',
+    loadChildren: () => import('./produtos/finalizarcarrinho/finalizarcarrinho.module').then( m => m.FinalizarcarrinhoPageModule)
   }
 ];
 @NgModule({

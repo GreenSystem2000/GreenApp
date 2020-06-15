@@ -1,0 +1,15 @@
+ion-content {
+    --background: url(/assets/textures/bg-futurist.png);
+}
+
+ion-item {
+    box-shadow: 0px 5px 8px rgba(50, 50, 50, 0.77);
+}
+
+.topRadius {
+    border-radius: 7px 7px 0px 0px; 
+}
+
+.bottomRadius {
+    border-radius: 0px 0px 7px 7px; 
+}

@@ -20,14 +20,16 @@ export class ComprarPage implements OnInit {
           prodStatus             : number[] = []
           quantidadeUltimaSelecao: number[] = [] 
 
-          precoConvertido       : number[] = []
-          total                 : number
+          precoConvertido        : number[] = []
+          total                  : number
 
-          isUserAuthenticated   : boolean
+          isUserAuthenticated    : boolean
           
 
-          informacoesCompras   :  Comprar
+          informacoesCompras     : Comprar
 
+  checkForSelection = localStorage.getItem('prodSelecionados');
+  
   ngOnInit() { }
 
   constructor(private authService: AutenticadoService) {
@@ -39,7 +41,7 @@ export class ComprarPage implements OnInit {
 
   selectedProducts() {
     let convertProdSToJSON = JSON.parse(localStorage.getItem('prodSelecionados'))
-
+    
     this.indice                  = convertProdSToJSON.indice
     this.produtoId               = convertProdSToJSON.produtoId
     this.produtoSelecionados     = convertProdSToJSON.produtos

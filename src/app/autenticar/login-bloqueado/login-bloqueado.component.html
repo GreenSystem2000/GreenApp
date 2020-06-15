@@ -1,16 +1,14 @@
 <ion-content>
-<div class="box ion-text-center">
-  <div>
-    <h1>Bem-Vindo</h1>
-    <p>Para ter acesso a está pagina é necessario estar logado.</p>
-    <ion-button color="secondary" [routerLink]="['/login']">
-      Efetuar login
-    </ion-button>
-    <p>Não tem cadastro?</p>
-    <ion-button color="medium" fill="outline" [routerLink]="['/criar-conta']">
-      Criar minha conta
-    </ion-button>
+  <div class="box ion-text-center">
+    <div>
+      <h1>Bem-vindo!</h1>
+      <p>Acesse a sua conta</p>
+      <ion-button color="primary" [routerLink]="['/criar-conta']">
+        Sou novo
+      </ion-button><br>
+      <ion-button color="primary" fill="outline" [routerLink]="['/login']">
+        Já tenho uma conta
+      </ion-button>
+    </div>
   </div>
-</div>
-
 </ion-content>

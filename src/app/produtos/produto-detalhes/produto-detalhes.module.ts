@@ -7,9 +7,8 @@ import { CompartilhadoModule } from 'src/app/compartilhado/compartilhado/compart
 
 @NgModule({
   imports: [
-
     ProdutoDetalhesPageRoutingModule,
-   CompartilhadoModule
+    CompartilhadoModule
   ],
   declarations: [ProdutoDetalhesPage]
 })

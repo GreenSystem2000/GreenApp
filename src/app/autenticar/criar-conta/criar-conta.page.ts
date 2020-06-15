@@ -1,5 +1,4 @@
 import { ToastService } from './../../core/service/toast.service';
-
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Conta } from './../compartilhado/conta';

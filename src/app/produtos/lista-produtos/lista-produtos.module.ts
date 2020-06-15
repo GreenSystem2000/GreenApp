@@ -13,13 +13,13 @@ const routes: Routes = [
     component: ListaProdutosPage 
   }
 ];
+
 @NgModule({
   imports: [
     PipesModule,
     CompartilhadoModule,
     RouterModule.forChild(routes)
-
   ],
   declarations: [ListaProdutosPage]
 })
-export class ListaProdutosPageModule {}
+export class ListaProdutosPageModule { }
