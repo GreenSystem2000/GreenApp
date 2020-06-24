@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +38,7 @@ export class AutenticadoService {
     return token !== null;
   }
 
-  getMinhaconta(username: string) {
-    return this.http.get<Login>(`http://localhost:8080/estoque/api/usuarios/${username}`)
+  getMinhaconta(username: string): Observable<Login[]> {
+    return this.http.get<Login[]>(`http://localhost:8080/estoque/api/usuarios/${username}`)
   }
 }

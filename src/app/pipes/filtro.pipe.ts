@@ -6,16 +6,12 @@ import { Produto } from '../produtos/compartilhado/produto';
 })
 export class FiltroPipe implements PipeTransform {
 
-  transform(produtos: Produto[], texto:string):Produto[]{
+  transform(produtos: Produto[], texto: string): Produto[]{
     if (texto.length === 0 ){return produtos;}
+      texto = texto.toLocaleLowerCase();
 
-    texto = texto.toLocaleLowerCase();
-
-    return produtos.filter(produto => {
-      return produto.descricao.toLocaleLowerCase().includes(texto);
-    });
-  
+      return produtos.filter(produto => {
+        return produto.descricao.toLocaleLowerCase().includes(texto);
+      });  
   }
-  }
-
-
+}

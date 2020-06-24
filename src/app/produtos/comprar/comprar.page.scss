@@ -5,7 +5,7 @@ table {
   }
   
   td, th {
-    border: 1px solid #dddddd;
+
     text-align: left;
     padding: 4px;
     height: 100px;
@@ -16,3 +16,7 @@ table {
   tr:nth-child(even) {
     background-color: #dddddd;
   }
+
+  ion-content {
+    --background: url(/assets/textures/bg-futurist.png);
+}

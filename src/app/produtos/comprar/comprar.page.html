@@ -1,22 +1,19 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Produtos selecionados</ion-title>
+  <ion-toolbar color="primary" class="ion-text-center">
+    <ion-title>Carrinho</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content *ngIf="produtoSelecionados.length > 0">
+  <p>Produtos Selecionados</p>
   <table>
-    <tr>
-      <th>Quantidade </th>
-      <th>Produto </th>
-      <th>Preço</th>
-      <th>Remover</th>
-    </tr>
+  
     
     <tr *ngFor="let produtoSelecionado of produtoSelecionados; let index = index">
-      <td *ngIf="quantidadeSelecionada[index] == 1">{{ quantidadeSelecionada[index] + 'unidade' }}</td>
-      <td *ngIf="quantidadeSelecionada[index] > 1">{{ quantidadeSelecionada[index] + 'unidades' }}</td>
+      <td *ngIf="quantidadeSelecionada[index] == 1">{{ quantidadeSelecionada[index] + ' unidade' }}</td>
+      <td *ngIf="quantidadeSelecionada[index] > 1">{{ quantidadeSelecionada[index] + ' unidades' }}</td>
       <td>{{ produtoSelecionado }}</td>
-      <td>{{ (precoProduto[index] / quantidadeSelecionada[index]).toLocaleString('pt-BR',{style: 'currency', currency:'BRL'}) }}</td>
+      <!-- <td>{{ (precoProduto[index] / quantidadeSelecionada[index]).toLocaleString('pt-BR',{style: 'currency', currency:'BRL'}) }}</td> -->
+      <td>{{ precoProduto[index].toLocaleString('pt-BR',{style: 'currency', currency:'BRL'}) }}</td>
       <td>
         <ion-button color="danger" (click)="removerDoCarrinho(produtoSelecionado, precoProduto[index], quantidadeSelecionada[index], produtoId[index], indice[index])">
           <ion-icon name="close"></ion-icon> 
@@ -28,8 +25,8 @@
   <br>
   <section class="full-width">
     <ion-button  color="primary" [routerLink]="['finalizarcarrinho']" *ngIf="produtoSelecionados.length > 0">
-      <ion-icon name="information"></ion-icon>
-      Finalizar Compra
+    
+      Escolher Forma de Pagamento
     </ion-button>
   </section>
 </ion-content>

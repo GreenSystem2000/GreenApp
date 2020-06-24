@@ -18,10 +18,10 @@ export class ListaProdutosPage implements OnInit {
   indice                 : number[]  = []
   produtoId              : number[]  = []
   produtoSelecionado     : string[]  = []
+  produtoNome            : string[]  = []
   precoProduto           : number[]  = []
   quantidadeSelecionada  : number[]  = []
   prodStatus             : number[]  = []
-  qtd                    : number = 1
   quantidadeUltimaSelecao: number[]  = [] 
 
   produtos               : Produto[] = []
@@ -29,13 +29,14 @@ export class ListaProdutosPage implements OnInit {
   precoReais             : number[]  = []
 
   constructor(private produtoService: ProdutoService, private authService: AutenticadoService) {
-    this.produtoService.get().subscribe(resposta => {
-      this.produtos = resposta
-
-      localStorage.setItem('QuantidadeDeProdutos', this.produtos.length.toString());
-    });
+    this.getProdutos()
   }
   
+  async getProdutos() {
+    this.produtos = await this.produtoService.get()
+    localStorage.setItem('QuantidadeDeProdutos', this.produtos.length.toString());
+  }
+
   ngOnInit() { }
   
   ionViewWillEnter() {
@@ -43,6 +44,9 @@ export class ListaProdutosPage implements OnInit {
     // Se não houver nada selecionado, execute esse método
 
     this.isUserAuthenticated = this.authService.isUserAuthenticated()
+
+    console.log(this.isUserAuthenticated)
+
     this.atualizarDados()
     
     localStorage.getItem('indice') && localStorage.removeItem('indice')
@@ -57,10 +61,12 @@ export class ListaProdutosPage implements OnInit {
         this.indice.pop()
         this.produtoId.pop()
         this.produtoSelecionado.pop()
+        this.produtoNome.pop()
         this.prodStatus.pop()
         this.precoProduto.pop()
         this.quantidadeSelecionada.pop()
         this.quantidadeUltimaSelecao.pop()
+          
       }
       for (let i = 0; i < quantidadeDeProdutos; i++) {
         this.prodStatus.push(0)
@@ -70,7 +76,7 @@ export class ListaProdutosPage implements OnInit {
   }
 
   buscarProduto(mostrar){
-    const texto = mostrar.target.value;
+    const texto = mostrar.target.value.trim();
     this.textobuscar = texto
   }
 
@@ -92,7 +98,10 @@ export class ListaProdutosPage implements OnInit {
       this.precoProduto            = convertProdSToJSON.preco
       this.quantidadeSelecionada   = convertProdSToJSON.quantidade
       this.quantidadeUltimaSelecao = convertProdSToJSON.quantidadeUltimaSelecao
+      this.produtoNome             = convertProdSToJSON.nome
     }
+
+    console.log(this.prodStatus)
   }
 
   atualizarDados() {
@@ -106,6 +115,7 @@ export class ListaProdutosPage implements OnInit {
       this.precoProduto            = convertProdSToJSON.preco
       this.quantidadeSelecionada   = convertProdSToJSON.quantidade
       this.quantidadeUltimaSelecao = convertProdSToJSON.quantidadeUltimaSelecao
+      this.produtoNome             = convertProdSToJSON.nome
     }
   }
 
@@ -151,7 +161,8 @@ export class ListaProdutosPage implements OnInit {
       preco                  : this.precoProduto,
       quantidade             : this.quantidadeSelecionada,
       prodStatus             : this.prodStatus,
-      quantidadeUltimaSelecao: this.quantidadeUltimaSelecao
+      quantidadeUltimaSelecao: this.quantidadeUltimaSelecao,
+      nome                   : this.produtoNome
     }
     
     localStorage.setItem('prodSelecionados', JSON.stringify(this.informacoesCompras))

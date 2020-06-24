@@ -26,3 +26,15 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 
+@font-face{
+    font-family: teste;
+    src: url('assets/fonts/Quicksand-VariableFont_wght.ttf');
+
+
+
+}
+
+
+*{
+    font-family: teste;
+}

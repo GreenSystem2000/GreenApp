@@ -1,15 +1,14 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="primary"  class="ion-text-center">
     <ion-title>Produtos</ion-title>
+  </ion-toolbar>
+  <ion-toolbar style="padding-top: 7px">
+    <ion-searchbar placeholder="Buscar Produto" animated (ionChange)="buscarProduto($event)">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true">
-  <ion-searchbar placeholder="Buscar Produto" animated
-                 (ionChange)="buscarProduto($event)">
-  </ion-searchbar>
-
   <ion-card *ngFor="let produto of produtos | filtro:textobuscar; let index = index">
     <img src="{{ produto.caminhoFoto }}" />
     <ion-card-header>
@@ -37,6 +36,8 @@
         <ion-icon name="information"></ion-icon>
         Detalhes
       </ion-button>
+    </ion-item>
+    <ion-item>
       <div *ngIf="produto.quantidade > 1">
         {{ produto.quantidade }} disponíveis
       </div>

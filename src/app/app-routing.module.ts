@@ -39,6 +39,22 @@ const routes: Routes = [
   {
     path: 'tabs/produtos/comprar/finalizarcarrinho',
     loadChildren: () => import('./produtos/finalizarcarrinho/finalizarcarrinho.module').then( m => m.FinalizarcarrinhoPageModule)
+  },
+  {
+    path: 'minhas-compras',
+    loadChildren: () => import('./autenticar/minhas-compras/minhas-compras.module').then( m => m.MinhasComprasPageModule)
+  },
+  {
+    path: 'tabs/produtos/comprar/finalizarcarrinho/concluido',
+    loadChildren: () => import('./produtos/concluido/concluido.module').then( m => m.ConcluidoPageModule)
+  },
+  {
+    path: 'cancela-pedido',
+    loadChildren: () => import('./autenticar/cancela-pedido/cancela-pedido.module').then( m => m.CancelaPedidoPageModule)
+  },
+  {
+    path: 'envia-feedback',
+    loadChildren: () => import('./autenticar/envia-feedback/envia-feedback.module').then( m => m.EnviaFeedbackPageModule)
   }
 ];
 @NgModule({

@@ -9,12 +9,11 @@ export class CompraService {
 
   constructor(private http: HttpClient) { }
 
-  get(): Observable<any[]> {
-    return this.http.get<any[]>("http://localhost:8080/estoque/api/cart")
+  async get() {
+    return await this.http.get<any[]>("http://localhost:8080/estoque/api/cart").toPromise()
   }
-
+  
   post(infoComprador: any): Observable<any[]> {
-    // return this.http.post<any[]>("http://localhost:3000/cart", infoComprador)
     return this.http.post<any[]>("http://localhost:8080/estoque/api/cart/salvarapi", infoComprador)
   }
 }

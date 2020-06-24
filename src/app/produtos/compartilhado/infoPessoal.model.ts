@@ -1,6 +1,8 @@
 export class InfoPessoalModel {
-    endereco: string;
-    cardNumber: number;
-    cpf: string;
-    email: string
+    cardNumber  : string;
+    cvv         : string;
+    nomeImpresso: string;
+    endereco    : string;
+    cpf         : string;
+    email       : string;
 }

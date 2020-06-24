@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Produto } from '../compartilhado/produto';
 import { Comprar } from '../compartilhado/comprar';
 import { AutenticadoService } from 'src/app/autenticar/compartilhado/autenticado.service';
 
@@ -10,7 +9,7 @@ import { AutenticadoService } from 'src/app/autenticar/compartilhado/autenticado
 })
 export class ComprarPage implements OnInit {
 
-          convertProdSToJSON    : any     
+          convertProdSToJSON    : any
           
           indice                 : number[] = []
           produtoId              : number[] = []
@@ -29,7 +28,7 @@ export class ComprarPage implements OnInit {
           informacoesCompras     : Comprar
 
   checkForSelection = localStorage.getItem('prodSelecionados');
-  
+
   ngOnInit() { }
 
   constructor(private authService: AutenticadoService) {

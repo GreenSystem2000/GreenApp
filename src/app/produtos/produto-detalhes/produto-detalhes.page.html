@@ -22,7 +22,7 @@
         <ion-icon name="checkbox" slot="start"></ion-icon>
         Adicionar ao carrinho
       </ion-button>
-      <ion-button color="secondary"
+      <ion-button color="primary"
       (click)="adicionarAoCarrinho(produto.descricao, produto.preco, quantidadeUltimaSelecao[indiceAtual])"
       *ngIf="isUserAuthenticated == true && prodStatus[indiceAtual] == 0" [disabled]="produto.quantidade <= 0">
         <ion-icon name="checkmark" slot="start"></ion-icon>
@@ -48,7 +48,7 @@
       <ion-button class="radius" color="danger" size="small" (click)="diminuirQtd(indiceAtual)" [disabled]="quantidadeUltimaSelecao[indiceAtual] == 1 || prodStatus[indiceAtual] == 1 || produto.quantidade <= 0 || isUserAuthenticated == false">
         -
       </ion-button>
-      <ion-button color="light" style="--border-radius: 5px" [disabled]="produto.quantidade <= 0 || isUserAuthenticated == false">
+      <ion-button color="light" style="--border-radius: 5px" [disabled]="produto.quantidade <= 0 || isUserAuthenticated == false || prodStatus[indiceAtual] == 1">
         {{ quantidadeUltimaSelecao[indiceAtual] }}
       </ion-button>
       <ion-button class="radius" color="secondary" size="small" (click)="adicionarQtd(indiceAtual)" [disabled]="quantidadeUltimaSelecao[indiceAtual] == produto.quantidade || prodStatus[indiceAtual] == 1 || produto.quantidade <= 0 || isUserAuthenticated == false">

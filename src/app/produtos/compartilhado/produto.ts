@@ -1,6 +1,4 @@
 export interface Produto {
-
-
 	quantidade   : number;
 	localizacao  : String;
 	categoria    : String;
@@ -9,10 +7,5 @@ export interface Produto {
 	id           : number;
 	descricao    : string;
 	preco        : string;
-	nome        : string;
-	
-   
-    
-
-    }
-
+	nome         : string;
+}

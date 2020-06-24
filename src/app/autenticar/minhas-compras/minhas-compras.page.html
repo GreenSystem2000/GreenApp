@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Minhas compras</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <table border="1">
+    <thead>
+      <th>Código compra</th>
+      <th>Produto descricao</th>
+      <th>Total</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let compra of compra; let i = index">
+        <td [style.background-color]="i % 2 === 0 && '#dddddd'">
+          {{ compra.id }}
+        </td>
+        <td [style.background-color]="i % 2 === 0 && '#dddddd'">
+          <tr *ngFor="let itens of compra.itens; let i = index">
+            <td>
+              {{ itens.produto.descricao }}
+            </td>
+          </tr>
+        </td>
+        <td [style.background-color]="i % 2 === 0 && '#dddddd'">{{ compra.total.toLocaleString('pt-BR',{style: 'currency', currency:'BRL'}) }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ion-content>
+
+<ion-content *ngIf="this.thereIsPurchase == false" class="ion-text-center" style="position: relative; top: 20%">
+  <ion-icon name="alert-circle-outline" style="font-size: 60px"></ion-icon>
+  <p>Não há compras efetuadas</p>
+</ion-content>
