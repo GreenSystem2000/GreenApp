@@ -9,27 +9,31 @@ import { AutenticadoService } from 'src/app/autenticar/compartilhado/autenticado
 })
 export class ComprarPage implements OnInit {
 
-          convertProdSToJSON    : any
+  convertProdSToJSON    : any
           
-          indice                 : number[] = []
-          produtoId              : number[] = []
-          produtoSelecionados    : string[] = []
-          precoProduto           : number[] = []
-          quantidadeSelecionada  : number[] = []
-          prodStatus             : number[] = []
-          quantidadeUltimaSelecao: number[] = [] 
+  indice                 : number[] = []
+  produtoId              : number[] = []
+  produtoSelecionados    : string[] = []
+  precoProduto           : number[] = []
+  quantidadeSelecionada  : number[] = []
+  prodStatus             : number[] = []
+  quantidadeUltimaSelecao: number[] = [] 
 
-          precoConvertido        : number[] = []
-          total                  : number
+  precoConvertido        : number[] = []
+  total                  : number
 
-          isUserAuthenticated    : boolean
-          
+  isUserAuthenticated    : boolean
+            
 
-          informacoesCompras     : Comprar
+  informacoesCompras     : Comprar
 
-  checkForSelection = localStorage.getItem('prodSelecionados');
+  checkForSelection: string
 
   ngOnInit() { }
+
+  ionViewWillEnter() {
+    this.checkForSelection = localStorage.getItem('prodSelecionados');
+  }
 
   constructor(private authService: AutenticadoService) {
     this.selectedProducts()

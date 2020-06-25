@@ -44,9 +44,7 @@ export class ListaProdutosPage implements OnInit {
     // Se não houver nada selecionado, execute esse método
 
     this.isUserAuthenticated = this.authService.isUserAuthenticated()
-
-    console.log(this.isUserAuthenticated)
-
+    
     this.atualizarDados()
     
     localStorage.getItem('indice') && localStorage.removeItem('indice')
@@ -100,8 +98,6 @@ export class ListaProdutosPage implements OnInit {
       this.quantidadeUltimaSelecao = convertProdSToJSON.quantidadeUltimaSelecao
       this.produtoNome             = convertProdSToJSON.nome
     }
-
-    console.log(this.prodStatus)
   }
 
   atualizarDados() {
@@ -161,8 +157,7 @@ export class ListaProdutosPage implements OnInit {
       preco                  : this.precoProduto,
       quantidade             : this.quantidadeSelecionada,
       prodStatus             : this.prodStatus,
-      quantidadeUltimaSelecao: this.quantidadeUltimaSelecao,
-      nome                   : this.produtoNome
+      quantidadeUltimaSelecao: this.quantidadeUltimaSelecao
     }
     
     localStorage.setItem('prodSelecionados', JSON.stringify(this.informacoesCompras))
@@ -170,11 +165,9 @@ export class ListaProdutosPage implements OnInit {
 
   adicionarQtd(index) {
     this.quantidadeUltimaSelecao[index]++
-    console.log(this.quantidadeUltimaSelecao)
   }
 
   diminuirQtd(index) {
     this.quantidadeUltimaSelecao[index]--
-    console.log(this.quantidadeUltimaSelecao)
   }
 }

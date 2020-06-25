@@ -1,4 +1,5 @@
-import { Component, OnInit, ɵCompiler_compileModuleAsync__POST_R3__ } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { EnviaFeedbackService } from '../compartilhado/envia-feedback.service';
 
 @Component({
   selector: 'app-envia-feedback',
@@ -7,14 +8,16 @@ import { Component, OnInit, ɵCompiler_compileModuleAsync__POST_R3__ } from '@an
 })
 export class EnviaFeedbackPage implements OnInit {
 
-  nome    : string
-  email   : string
-  telefone: string
-  celular : string
-  assunto : string
-  mensagem: string
+  nome      : string
+  email     : string
+  telefone  : string
+  celular   : string
+  assunto   : string
+  mensagem  : string
 
-  constructor() { }
+  sendStatus: number = 0
+
+  constructor(private enviaFeedbackService: EnviaFeedbackService) { }
 
   formatTelefone() {
     this.telefone = this.telefone.replace(/[^\d]/g, "").replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3")
@@ -37,6 +40,26 @@ export class EnviaFeedbackPage implements OnInit {
            celular.test(this.celular)   &&
            this.assunto != undefined    &&
            this.mensagem != undefined
+  }
+
+  sendEmail() {
+    const feedback = {
+      "body": "<br>Telefone:  " + this.telefone +
+              "<br>Celular: " + this.celular +
+              "<br>Email: " + this.email +
+              "<br><br>" + this.mensagem,
+      "name": this.nome,
+      "subject": this.assunto
+    }
+
+    this.enviaFeedbackService.enviarEmail(feedback).subscribe(_ => {
+      console.info('Email enviado com sucesso!')
+      this.sendStatus = 1;
+    }, err => {
+      console.error('Houve uma falha ao enviar o email! > ' , err)
+      this.sendStatus = 0;
+    })
+
   }
 
   ngOnInit() {
